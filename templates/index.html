@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prompt⚡️Energy</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Add PrismJS for code syntax highlighting -->
+<link href="https://cdn.jsdelivr.net/npm/prismjs@1.26.0/themes/prism.css" rel="stylesheet" />
+
+  
+<!--   Load Tab Handler   -->
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+<!--   Load Prompts -->
+<script>
+  async function loadPrompts() {
+    const response = await fetch('/static/prompts.json');
+    const prompts = await response.json();
+    const select = document.getElementById('input_text');
+    prompts.forEach(prompt => {
+      const option = document.createElement('option');
+      option.value = prompt.prompt;
+      option.textContent = prompt.prompt;
+      select.appendChild(option);
+    });
+  }
+</script>
+<script>
+  // Load prompts function (same as before)
+
+   document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("generate-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const response = await fetch("/generate_async", { method: "POST", body: formData });
+      const data = await response.json();
+      document.getElementById("output").textContent = data.result;
+      document.getElementById("output-section").classList.remove("hidden"); // Add this line
+    });
+
+    document.getElementById("copy-button").addEventListener("click", () => {
+      const output = document.getElementById("output");
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(output);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      document.execCommand("copy");
+      selection.removeAllRanges();
+      // alert("Text copied to clipboard!");
+    });
+  });
+
+  
+</script>
+
+
+
+</head>
+
+  
+ <body class="bg-gray-100 min-h-screen" onload="loadPrompts()">
+
+  <div x-data="{ tab: 'prompt-book' }" class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg shadow-lg p-6">
+      <div class="flex items-center justify-center mb-4">
+        <h1 class="text-4xl font-extrabold bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+          Prompt⚡️Energy
+        </h1>
+      </div>
+
+      <div class="border-b border-gray-200">
+        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+          <button x-on:click="tab = 'prompt-book'"
+                  :class="{ 'border-indigo-500 text-indigo-600': tab === 'prompt-book' }"
+                  class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm"
+                  aria-current="page">
+            Prompt Book
+          </button>
+          <button x-on:click="tab = 'prompt-lab'"
+                  :class="{ 'border-indigo-500 text-indigo-600': tab === 'prompt-lab' }"
+                  class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm">
+            Prompt Lab
+          </button>
+          <button x-on:click="tab = 'about'"
+                  :class="{ 'border-indigo-500 text-indigo-600': tab === 'about' }"
+                  class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 w-1/3 py-4 px-1 text-center border-b-2 font-medium text-sm">
+            About
+          </button>
+        </nav>
+      </div>
+
+      <div class="mt-4">
+        <div x-show="tab === 'prompt-book'">
+          <form id="generate-form">
+
+            <label for="input_text" class="block mb-2">Select a pre-defined prompt:</label>
+            <select name="input_text" id="input_text" class="border p-2 mb-4"></select>
+
+            <br>
+            <input type="submit" value="Generate" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          </form>
+          
+       <div class="relative mt-6 hidden" id="output-section">
+  <div class="bg-gray-100 py-1 px-3 rounded-t-md text-sm font-medium text-gray-600 flex justify-between items-center border-b border-gray-300"> <!-- Add the 'border-b border-gray-300' classes here -->
+    <span>Output</span>
+    <button id="copy-button" class="text-blue-500 hover:text-blue-600">
+      <i class="far fa-copy"></i> Copy
+    </button>
+  </div>
+  <div id="output" class="bg-gray-100 text-gray-800 px-3 py-2 rounded-b-md overflow-auto whitespace-pre-wrap"></div>
+</div>
+
+</div>
+
+
+<!--   <pre class="bg-gray-100 text-gray-800 px-3 py-2 rounded-b-md overflow-auto"><code id="output" class="language-python"></code></pre> -->
+
+
+            
+</div>
+
+
+
+        </div> 
+<!--         end of prompt book div -->
+        
+        <div x-show="tab === 'prompt-lab'" class="text-center">
+          <p>Coming soon!</p>
+        </div>
+        <div x-show="tab === 'about'" class="text-center">
+          <p>Coming soon!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Add PrismJS for code syntax highlighting -->
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.26.0/prism.js"></script>
+
+<script>
+  document.getElementById("copy-button").addEventListener("click", () => {
+    navigator.clipboard.writeText(document.getElementById("output").innerText);
+    
+  });
+</script>
+
+   
+</body>
+
+
+  
+</html>
