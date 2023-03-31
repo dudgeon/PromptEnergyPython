@@ -2,41 +2,50 @@
 <html>
 <head>
   <title>Prompt⚡️Energy</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <!-- Add PrismJS for code syntax highlighting -->
-<link href="https://cdn.jsdelivr.net/npm/prismjs@1.26.0/themes/prism.css" rel="stylesheet" />
-
   
-<!--   Load Tab Handler   -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.26.0/themes/prism.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 
-<!--   Load Prompts -->
 <script>
-  async function loadPrompts() {
-    const response = await fetch('/static/prompts.json');
-    const prompts = await response.json();
-    const select = document.getElementById('input_text');
-    prompts.forEach(prompt => {
-      const option = document.createElement('option');
-      option.value = prompt.prompt;
-      option.textContent = prompt.prompt;
-      select.appendChild(option);
-    });
-  }
-</script>
-<script>
-  // Load prompts function (same as before)
+async function loadPrompts() {
+  const response = await fetch('/static/prompts.json');
+  const prompts = await response.json();
+  const select = document.getElementById('input_text');
+  
+  prompts.forEach(prompt => {
+    const option = document.createElement('option');
+    option.value = prompt.prompt;
+    option.textContent = prompt.name;
+    select.appendChild(option);
+  });
 
-   document.addEventListener("DOMContentLoaded", () => {
+  select.addEventListener("change", () => {
+    const selectedPrompt = prompts.find(p => p.prompt === select.value);
+
+    if (selectedPrompt && selectedPrompt.requires_context) {
+      document.getElementById("context").style.display = "block";
+    } else {
+      document.getElementById("context").style.display = "none";
+    }
+  });
+}
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+    
     document.getElementById("generate-form").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const formData = new FormData(event.target);
-      const response = await fetch("/generate_async", { method: "POST", body: formData });
-      const data = await response.json();
-      document.getElementById("output").textContent = data.result;
-      document.getElementById("output-section").classList.remove("hidden"); // Add this line
-    });
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  formData.append("context", document.getElementById("context").value);
+  const response = await fetch("/generate_async", { method: "POST", body: formData });
+  const data = await response.json();
+  document.getElementById("output").textContent = data.result;
+  document.getElementById("output-section").classList.remove("hidden");
+});
 
+    
     document.getElementById("copy-button").addEventListener("click", () => {
       const output = document.getElementById("output");
       const selection = window.getSelection();
@@ -46,15 +55,10 @@
       selection.addRange(range);
       document.execCommand("copy");
       selection.removeAllRanges();
-      // alert("Text copied to clipboard!");
     });
+    
   });
-
-  
 </script>
-
-
-
 </head>
 
   
@@ -63,7 +67,8 @@
   <div x-data="{ tab: 'prompt-book' }" class="container mx-auto px-4 py-8">
     <div class="bg-white rounded-lg shadow-lg p-6">
       <div class="flex items-center justify-center mb-4">
-        <h1 class="text-4xl font-extrabold bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+
           Prompt⚡️Energy
         </h1>
       </div>
@@ -91,17 +96,20 @@
 
       <div class="mt-4">
         <div x-show="tab === 'prompt-book'">
+
+          
           <form id="generate-form">
-
             <label for="input_text" class="block mb-2">Select a pre-defined prompt:</label>
-            <select name="input_text" id="input_text" class="border p-2 mb-4"></select>
-
+            <select name="input_text" id="input_text" class="border p-2 mb-4 w-full md:w-auto"></select>
             <br>
-            <input type="submit" value="Generate" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <textarea name="context" id="context" class="border p-2 mb-4 w-full h-32" placeholder="Enter additional context here (if required)"></textarea>  
+            <input type="submit" value="Generate" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto loading">
           </form>
+
           
        <div class="relative mt-6 hidden" id="output-section">
-  <div class="bg-gray-100 py-1 px-3 rounded-t-md text-sm font-medium text-gray-600 flex justify-between items-center border-b border-gray-300"> <!-- Add the 'border-b border-gray-300' classes here -->
+  <div class="bg-gray-100 py-1 px-3 rounded-t-md text-sm font-medium text-gray-600 flex justify-between items-center border-b border-gray-300 w-full"> <!-- Add the 'border-b border-gray-300' classes here -->
+ <!-- Add the 'border-b border-gray-300' classes here -->
     <span>Output</span>
     <button id="copy-button" class="text-blue-500 hover:text-blue-600">
       <i class="far fa-copy"></i> Copy
@@ -123,13 +131,20 @@
 
         </div> 
 <!--         end of prompt book div -->
+
+    
         
         <div x-show="tab === 'prompt-lab'" class="text-center">
-          <p>Coming soon!</p>
+          <p>Coming soon! Define prompts and save them for future use.</p>
+          <p>For enterprise use, set up access controls, content filtering, and quality checks.</p>
         </div>
+    
         <div x-show="tab === 'about'" class="text-center">
-          <p>Coming soon!</p>
+          <p>Prompt⚡️Energy is a personal project to visualize some I deas I have in my head about how large, regulated entities can safely arm their associates with LLM super-powers in ways that are consistent with their risk standards, processes, and cultures.</p>
+          <p>While open-ended, conversational use of tools like ChatGPT are clearly the future (ChatGPT itself was instrumental in writing this demo app), I am interested in finding ways to accomodate the legitimate concerns of organizations that may struggle to govern and adopt these tools.</p>
         </div>
+
+    
       </div>
     </div>
   </div>
