@@ -4,27 +4,44 @@
     "description": "Annotate code to help a human software engineer understand poorly documented code in a language they are not familiar with.",
     "author": "OpenAI",
     "prompt": "Please help me understand this code. Format your response with the following elemente: an n-line comment describing the code, it's high-level function, and the variables and functions it uses. Then divide the code into major blocks of functionality. before each block, add an in-line comment describing the functionality of the block. Here is the code:",
-    "requires_context": true
+    "requires_context": true,
+    "placeholder_context": "PRINTSTMT(ACCTNUM, STARTDATE, ENDDATE)\n N TRANSACTION, TRANSACTIONDATE, TRANSACTIONAMT, TRANSACTIONDESC\n N BALANCE, DOLLARS, CENTS\n S BALANCE=0\n S DOLLARS=0\n S CENTS=0\n S TRANSACTIONDATE=STARTDATE-1\n F  S TRANSACTIONDATE=$O(^TRANSACTION(ACCTNUM,TRANSACTIONDATE)) Q:'TRANSACTIONDATE!(TRANSACTIONDATE>ENDDATE)  D\n . S TRANSACTIONAMT=\"\"\n . F  S TRANSACTIONAMT=$O(^TRANSACTION(ACCTNUM,TRANSACTIONDATE,TRANSACTIONAMT)) Q:'TRANSACTIONAMT  D\n . . S TRANSACTIONDESC=\"\"\n . . F  S TRANSACTIONDESC=$O(^TRANSACTION(ACCTNUM,TRANSACTIONDATE,TRANSACTIONAMT,TRANSACTIONDESC)) Q:'TRANSACTIONDESC  D\n . . . S BALANCE=BALANCE+TRANSACTIONAMT\n . . . S DOLLARS=$P(TRANSACTIONAMT,\".\")\n . . . S CENTS=$P(TRANSACTIONAMT,\".\",2)\n . . . I CENTS=\"\" S CENTS=0\n . . . I $L(CENTS)>2 S CENTS=$E(CENTS,1,2)\n . . . S TRANSACTIONDATE=$$FMTE^XLFDT(TRANSACTIONDATE)\n . . . W !,TRANSACTIONDATE,?15,TRANSACTIONDESC,?55,\"$\",DOLLARS,\".\",$S(CENTS=\"\":\"00\",1:CENTS)\n S DOLLARS=$P(BALANCE,\".\")\n S CENTS=$P(BALANCE,\".\",2)\n I CENTS=\"\" S CENTS=0\n I $L(CENTS)>2 S CENTS=$E(CENTS,1,2)\n W !,\"Ending Balance:\",?55,\"$\",DOLLARS,\".\",$S(CENTS=\"\":\"00\",1:CENTS)\n Q\n",
+    "response_is_code": true
   },
   {
     "name": "Story Generation",
     "description": "Help a product manager turn an unstructured description of a feature into a standardized, engineer-friendly story in Gherkin format, including test cases.",
     "author": "OpenAI",
     "prompt": "Turn the following feature description into a Gherkin formatted story with test cases:",
-    "requires_context": true
+    "requires_context": true,
+    "placeholder_context": "Provide an unstructured feature description.",
+    "response_is_code": true
   },
   {
     "name": "Marketing Copy Translation",
     "description": "Translate existing customer service support documents written for an expert into succinct, user-friendly summaries suitable for a customer self-service context.",
     "author": "OpenAI",
     "prompt": "Translate the following expert-written support document into an actionable and user-friendly summary:",
-    "requires_context": true
+    "requires_context": true,
+    "placeholder_context": "Provide an expert-written support document.",
+    "response_is_code": false
   },
   {
     "name": "Random Fun Fact about LLMs",
     "description": "Get a random, fun fact about LLMs and their abilities in approachable language.",
     "author": "OpenAI",
     "prompt": "Tell me a fun fact about large language models and their abilities. Please format your response as a rhyming, humorous poem.",
-    "requires_context": false
+    "requires_context": false,
+    "placeholder_context": "No context is required.",
+    "response_is_code": false
+  },
+  {
+    "name": "Knock-Knock Joke",
+    "description": "Generate a knock-knock joke based on user-provided context.",
+    "author": "OpenAI",
+    "prompt": "Please provide a topic for your knock-knock joke:",
+    "requires_context": true,
+    "placeholder_context": "Provide a topic for your joke.",
+    "response_is_code": false
   }
 ]

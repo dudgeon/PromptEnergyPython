@@ -26,11 +26,20 @@ async function loadPrompts() {
 
     if (selectedPrompt && selectedPrompt.requires_context) {
       document.getElementById("context").style.display = "block";
+      document.getElementById("context").value = selectedPrompt.placeholder_context;
     } else {
       document.getElementById("context").style.display = "none";
+      document.getElementById("context").value = "";
     }
   });
+
+  // Set default context value on page load
+  const defaultPrompt = prompts[0];
+  if (defaultPrompt.requires_context) {
+    document.getElementById("context").value = defaultPrompt.placeholder_context;
+  }
 }
+
 
 
   document.addEventListener("DOMContentLoaded", () => {

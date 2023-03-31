@@ -14,7 +14,10 @@ def generate_text(prompt, context=None):
     input_tokens = len(full_prompt.split())
     
     # Set max_tokens based on the input_tokens
-    max_response_tokens = max(150, min(input_tokens * 5, 4096))
+    # max_response_tokens = max(150, min(input_tokens * 5, 4096))
+    min_tokens = 150
+    max_tokens = input_tokens * 5
+    max_response_tokens = min(max_tokens, 4096) if max_tokens > min_tokens else min_tokens
 
     completions = openai.Completion.create(
         engine=model_engine,
