@@ -6,29 +6,39 @@ app = Flask(__name__)
 
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
+import openai
+
+import openai
+
 def generate_text(prompt, context=None):
-    model_engine = "text-davinci-002"
-    full_prompt = f"{context} {prompt}{{{{response}}}}" if context else f"{prompt}{{{{response}}}}"
-    
-    # Calculate tokens in the input prompt
-    input_tokens = len(full_prompt.split())
+    model_engine = "gpt-3.5-turbo"
+
+    # Prepare the messages for the Chat API
+    messages = [{"role": "system", "content": "You are a helpful assistant."}]
+    if context:
+        messages.append({"role": "user", "content": context})
+    messages.append({"role": "user", "content": prompt})
+
+    # Calculate tokens in the input messages
+    input_tokens = sum([len(message['content'].split()) for message in messages])
     
     # Set max_tokens based on the input_tokens
-    # max_response_tokens = max(150, min(input_tokens * 5, 4096))
     min_tokens = 150
     max_tokens = input_tokens * 5
     max_response_tokens = min(max_tokens, 4096) if max_tokens > min_tokens else min_tokens
 
-    completions = openai.Completion.create(
-        engine=model_engine,
-        prompt=full_prompt,
+    response = openai.ChatCompletion.create(
+        model=model_engine,
+        messages=messages,
         max_tokens=max_response_tokens,
         n=1,
-        stop=None,
         temperature=0.7,
+        top_p=1,
+        stop=None,
     )
-    message = completions.choices[0].text.strip()
+    message = response.choices[0].message['content'].strip()
     return message
+
 
 @app.route("/")
 def home():
