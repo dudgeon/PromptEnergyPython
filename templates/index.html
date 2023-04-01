@@ -154,18 +154,25 @@ async function loadPrompts() {
 
           </form>
 
-          
- <div class="relative mt-6 hidden" id="output-section">
-  <div class="bg-gray-100 py-1 px-3 rounded-t-md text-sm font-medium text-gray-600 flex justify-between items-center border-b border-gray-300 w-full">
-    <span>Output</span>
-    <button id="copy-button" class="text-blue-500 hover:text-blue-600">
-      <i class="far fa-copy"></i> Copy
-    </button>
+
+          <div class="relative mt-6 hidden" id="output-section">
+  <div class="bg-gray-800 rounded-t-md mb-4">
+    <div class="flex items-center relative text-gray-200 bg-gray-700 px-4 py-2 text-xs font-sans justify-between rounded-t-md">
+      <span>Output</span>
+      <button id="copy-button" class="flex ml-auto gap-2 text-blue-500 hover:text-blue-600">
+        <i class="far fa-copy"></i> Copy
+      </button>
+    </div>
+    <div class="p-4 overflow-y-auto bg-black rounded-b-md">
+      <pre class="!whitespace-pre hljs language-bash"><code id="output"></code></pre>
+    </div>
   </div>
-  <pre class="bg-gray-100 text-gray-800 px-3 py-2 rounded-b-md overflow-auto whitespace-pre-wrap">
-    <code id="output" class="language-plaintext"></code>
-  </pre>
 </div>
+
+
+
+
+
 
 </div>
 <!--   <pre class="bg-gray-100 text-gray-800 px-3 py-2 rounded-b-md overflow-auto"><code id="output" class="language-python"></code></pre> -->
