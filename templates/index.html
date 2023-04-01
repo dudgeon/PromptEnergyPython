@@ -150,16 +150,19 @@ async function loadPrompts() {
 
     
         
-        <div x-show.transition="tab === 'prompt-lab'" class="h-full text-center px-4 w-full md:w-3/4 mx-auto" >
+        <div x-show.transition="tab === 'prompt-lab'" class="h-full px-4 w-full md:w-3/4 mx-auto" >
           <div>
-    <p class="break-words">Coming soon! Define prompts and save them for future use.</p>
-    <p class="break-words">For enterprise use, set up access controls, content filtering, and quality checks.</p>
+    <p class="break-words">Define and save prompts for future use. Define the prompt, system message, model, temperature, max_tokens, etc.</p>
+    <p class="break-words">For enterprise use, set up access controls, content filtering, and response quality checks.</p>
           </div>
 </div>
 
-<div x-show.transition="tab === 'about'" class="h-full text-center px-4 w-full md:w-3/4 mx-auto" >
+<div x-show.transition="tab === 'about'" class="h-full px-4 w-full md:w-3/4 mx-auto" >
+  
     <p class="break-words">Prompt⚡️Energy is a personal project to visualize some ideas I have in my head about how large, regulated entities can safely arm their associates with LLM super-powers in ways that are consistent with their risk standards, processes, and cultures.</p>
+  
     <p class="break-words">While open-ended, conversational use of tools like ChatGPT are clearly the future (ChatGPT itself was instrumental in writing this demo app), I am interested in finding ways to accommodate the legitimate concerns of organizations that may struggle to govern and adopt these tools.</p>
+  
 </div>
 
 
