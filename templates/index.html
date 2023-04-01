@@ -173,10 +173,33 @@ async function loadPrompts() {
     
 <!--  PROMPT LAB SECTION -->
 <div x-show.transition="tab === 'prompt-lab'" class="h-full px-4 w-full md:w-3/4 mx-auto" >
-  <div>
-      <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">Define and save prompts for future use. Define the prompt, system message, model, temperature, max_tokens, etc.</p>
-      <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">For enterprise use, set up access controls, content filtering, and response quality checks.</p>
-    </div>
+ <div>
+    <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">A future 'prompt lab' feature could enable individual users to define, test, and save their favorite prompts for convenient use in the future. Prompts could include:</p>
+
+    <ul class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600 list-disc pl-6">
+        <li>Defined, tested prompt instruction and system message.</li>
+        <li>Preferred model for execution (Prompt Lab could be model agnostic, prompts would be model-specific).</li>
+        <li>Parameters such as model temperature and max_tokens.</li>
+    </ul>
+    
+    <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">In an enterprise environment, prompt book could serve two additional roles:</p>
+
+    <ul class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600 list-disc pl-6">
+        <li>Use standard prompts to drive process consistency across a company (e.g. provide a common starting point and format for user story documentation)</li>
+        <li>Provide trusted access to LLMs, implementing controls that ChatGPT and related tools lack.</li>
+    </ul>
+    <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">I can imagine an company-wide prompt book that provides tooling and patterns to define and deploy standardized prompts in a corporate setting. These would include:</p>
+ 
+    <ul class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600 list-disc pl-6">
+        <li>Access management</li>
+        <li>Data loss/content filtering for user-provided contexts</li>
+        <li>Response quality checks and controls</li>
+    </ul>
+
+    <p></p>
+    
+</div>
+
 </div>
 
 <!-- PROMPT BOOK SECTION -->
