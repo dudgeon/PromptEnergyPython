@@ -44,15 +44,28 @@ async function loadPrompts() {
 
   document.addEventListener("DOMContentLoaded", () => {
     
-    document.getElementById("generate-form").addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const formData = new FormData(event.target);
-  formData.append("context", document.getElementById("context").value);
-  const response = await fetch("/generate_async", { method: "POST", body: formData });
-  const data = await response.json();
-  document.getElementById("output").textContent = data.result;
-  document.getElementById("output-section").classList.remove("hidden");
-});
+  document.querySelector('button[type="submit"]').addEventListener("click", async (event) => {
+    event.preventDefault();
+    const button = document.querySelector('button[type="submit"]');
+    const spinner = button.querySelector('.spinner');
+    const loadingText = button.querySelector('.loading-text');
+    button.disabled = true;
+    button.style.opacity = 0.5;
+    loadingText.textContent = 'Loading...';
+    spinner.classList.remove('hidden');
+    const formData = new FormData(document.getElementById("generate-form"));
+    formData.append("context", document.getElementById("context").value);
+    const response = await fetch("/generate_async", { method: "POST", body: formData });
+    const data = await response.json();
+    document.getElementById("output").textContent = data.result;
+    document.getElementById("output-section").classList.remove("hidden");
+    spinner.classList.add('hidden');
+    button.disabled = false;
+    button.style.opacity = 1;
+    loadingText.textContent = 'Generate';
+      });
+
+
 
     
     document.getElementById("copy-button").addEventListener("click", () => {
@@ -119,7 +132,16 @@ async function loadPrompts() {
             <textarea name="context" id="context" class="border p-2 mb-4 w-full h-32" placeholder="Enter additional context here (if required)"></textarea>  
             </div>
             
-            <input type="submit" value="Generate" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto loading">
+           <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto relative">
+  <span class="spinner hidden absolute top-0 left-0 w-full h-full flex items-center justify-center">
+    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647zM12 20.5A8.5 8.5 0 012.5 12H4a7.5 7.5 0 0014.659 2.659l-1.302-1.303A5.5 5.5 0 1112 20.5z"></path>
+    </svg>
+  </span>
+  <span class="loading-text">Generate</span>
+</button>
+
           </form>
 
           
