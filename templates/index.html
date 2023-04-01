@@ -25,10 +25,10 @@ async function loadPrompts() {
     const selectedPrompt = prompts.find(p => p.prompt === select.value);
 
     if (selectedPrompt && selectedPrompt.requires_context) {
-      document.getElementById("context").style.display = "block";
+      document.getElementById("context-container").style.display = "block";
       document.getElementById("context").value = selectedPrompt.placeholder_context;
     } else {
-      document.getElementById("context").style.display = "none";
+      document.getElementById("context-container").style.display = "none";
       document.getElementById("context").value = "";
     }
   });
@@ -110,10 +110,15 @@ async function loadPrompts() {
 
           
           <form id="generate-form">
-            <label for="input_text" class="block mb-2">Select a pre-defined prompt:</label>
+            <label for="input_text" class="block mb-2">Select a prompt:</label>
             <select name="input_text" id="input_text" class="border p-2 mb-4 w-full md:w-auto"></select>
             <br>
+
+            <div id="context-container">
+            <label for="context" class="block mb-2">Please edit or add your context:</label>
             <textarea name="context" id="context" class="border p-2 mb-4 w-full h-32" placeholder="Enter additional context here (if required)"></textarea>  
+            </div>
+            
             <input type="submit" value="Generate" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto loading">
           </form>
 
