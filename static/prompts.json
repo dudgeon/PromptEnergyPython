@@ -3,6 +3,15 @@
     "name": "Code Annotation",
     "description": "Annotate code to help a human software engineer understand poorly documented code in a language they are not familiar with.",
     "author": "Geoff",
+    "prompt": "Annotate the provided code including in-line comments describing the functionality of each line. Here is the code:",
+    "requires_context": true,
+    "placeholder_context": "PRINTSTMT(ACCTNUM, STARTDATE, ENDDATE)\n N TRANSACTION, TRANSACTIONDATE, TRANSACTIONAMT, TRANSACTIONDESC\n N BALANCE, DOLLARS, CENTS\n S BALANCE=0\n S DOLLARS=0\n S CENTS=0\n S TRANSACTIONDATE=STARTDATE-1\n F  S TRANSACTIONDATE=$O(^TRANSACTION(ACCTNUM,TRANSACTIONDATE)) Q:'TRANSACTIONDATE!(TRANSACTIONDATE>ENDDATE)  D\n . S TRANSACTIONAMT=\"\"\n . F  S TRANSACTIONAMT=$O(^TRANSACTION(ACCTNUM,TRANSACTIONDATE,TRANSACTIONAMT)) Q:'TRANSACTIONAMT  D\n . . S TRANSACTIONDESC=\"\"\n . . F  S TRANSACTIONDESC=$O(^TRANSACTION(ACCTNUM,TRANSACTIONDATE,TRANSACTIONAMT,TRANSACTIONDESC)) Q:'TRANSACTIONDESC  D\n . . . S BALANCE=BALANCE+TRANSACTIONAMT\n . . . S DOLLARS=$P(TRANSACTIONAMT,\".\")\n . . . S CENTS=$P(TRANSACTIONAMT,\".\",2)\n . . . I CENTS=\"\" S CENTS=0\n . . . I $L(CENTS)>2 S CENTS=$E(CENTS,1,2)\n . . . S TRANSACTIONDATE=$$FMTE^XLFDT(TRANSACTIONDATE)\n . . . W !,TRANSACTIONDATE,?15,TRANSACTIONDESC,?55,\"$\",DOLLARS,\".\",$S(CENTS=\"\":\"00\",1:CENTS)\n S DOLLARS=$P(BALANCE,\".\")\n S CENTS=$P(BALANCE,\".\",2)\n I CENTS=\"\" S CENTS=0\n I $L(CENTS)>2 S CENTS=$E(CENTS,1,2)\n W !,\"Ending Balance:\",?55,\"$\",DOLLARS,\".\",$S(CENTS=\"\":\"00\",1:CENTS)\n Q\n",
+    "response_is_code": true
+  },
+  {
+    "name": "Code Annotation + Summary",
+    "description": "Annotate code to help a human software engineer understand poorly documented code in a language they are not familiar with.",
+    "author": "Geoff",
     "prompt": "Please help me understand code that I will provide. Begin with an in-line comment describing the code's high-level purpose and the variables and functions it uses. Then divide the code into component blocks of functionality; for each block, begin with an in-line comment describing the functionality of the block, followed by the code lock being described. Here is the code:",
     "requires_context": true,
     "placeholder_context": "PRINTSTMT(ACCTNUM, STARTDATE, ENDDATE)\n N TRANSACTION, TRANSACTIONDATE, TRANSACTIONAMT, TRANSACTIONDESC\n N BALANCE, DOLLARS, CENTS\n S BALANCE=0\n S DOLLARS=0\n S CENTS=0\n S TRANSACTIONDATE=STARTDATE-1\n F  S TRANSACTIONDATE=$O(^TRANSACTION(ACCTNUM,TRANSACTIONDATE)) Q:'TRANSACTIONDATE!(TRANSACTIONDATE>ENDDATE)  D\n . S TRANSACTIONAMT=\"\"\n . F  S TRANSACTIONAMT=$O(^TRANSACTION(ACCTNUM,TRANSACTIONDATE,TRANSACTIONAMT)) Q:'TRANSACTIONAMT  D\n . . S TRANSACTIONDESC=\"\"\n . . F  S TRANSACTIONDESC=$O(^TRANSACTION(ACCTNUM,TRANSACTIONDATE,TRANSACTIONAMT,TRANSACTIONDESC)) Q:'TRANSACTIONDESC  D\n . . . S BALANCE=BALANCE+TRANSACTIONAMT\n . . . S DOLLARS=$P(TRANSACTIONAMT,\".\")\n . . . S CENTS=$P(TRANSACTIONAMT,\".\",2)\n . . . I CENTS=\"\" S CENTS=0\n . . . I $L(CENTS)>2 S CENTS=$E(CENTS,1,2)\n . . . S TRANSACTIONDATE=$$FMTE^XLFDT(TRANSACTIONDATE)\n . . . W !,TRANSACTIONDATE,?15,TRANSACTIONDESC,?55,\"$\",DOLLARS,\".\",$S(CENTS=\"\":\"00\",1:CENTS)\n S DOLLARS=$P(BALANCE,\".\")\n S CENTS=$P(BALANCE,\".\",2)\n I CENTS=\"\" S CENTS=0\n I $L(CENTS)>2 S CENTS=$E(CENTS,1,2)\n W !,\"Ending Balance:\",?55,\"$\",DOLLARS,\".\",$S(CENTS=\"\":\"00\",1:CENTS)\n Q\n",
@@ -39,9 +48,9 @@
     "name": "Knock-Knock Joke",
     "description": "Generate a knock-knock joke based on user-provided context.",
     "author": "OpenAI",
-    "prompt": "Please provide a topic for your knock-knock joke:",
+    "prompt": "Please generate a clever knock-knock joke based using the provided context as a topic. Here is the context:",
     "requires_context": true,
-    "placeholder_context": "Provide a topic for your joke.",
+    "placeholder_context": "e.g. Axolotls",
     "response_is_code": false
   }
 ]
