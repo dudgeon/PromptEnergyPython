@@ -155,15 +155,16 @@ async function loadPrompts() {
           </form>
 
           
-       <div class="relative mt-6 hidden" id="output-section">
-  <div class="bg-gray-100 py-1 px-3 rounded-t-md text-sm font-medium text-gray-600 flex justify-between items-center border-b border-gray-300 w-full"> <!-- Add the 'border-b border-gray-300' classes here -->
- <!-- Add the 'border-b border-gray-300' classes here -->
+ <div class="relative mt-6 hidden" id="output-section">
+  <div class="bg-gray-100 py-1 px-3 rounded-t-md text-sm font-medium text-gray-600 flex justify-between items-center border-b border-gray-300 w-full">
     <span>Output</span>
     <button id="copy-button" class="text-blue-500 hover:text-blue-600">
       <i class="far fa-copy"></i> Copy
     </button>
   </div>
-  <div id="output" class="bg-gray-100 text-gray-800 px-3 py-2 rounded-b-md overflow-auto whitespace-pre-wrap"></div>
+  <pre class="bg-gray-100 text-gray-800 px-3 py-2 rounded-b-md overflow-auto whitespace-pre-wrap">
+    <code id="output" class="language-plaintext"></code>
+  </pre>
 </div>
 
 </div>
@@ -213,7 +214,7 @@ async function loadPrompts() {
     <div class="flex items-center gap-x-4 text-xs">
       <time datetime="2023-04-01" class="text-gray-500">Apr 1, 2023</time>
     </div>
-    <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">Prompt⚡️Energy is a personal project to visualize some ideas I have in my head about how large, regulated entities can safely arm their associates with LLM super-powers in ways that are consistent with their risk standards, processes, and cultures.</p>
+    <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">Prompt⚡️Energy is a personal project to visualize some ideas I have in my head about how large, regulated entities that may block access to ChatGPT today can safely arm their associates with LLM super-powers in ways that are consistent with their risk standards, processes, and cultures.</p>
     <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">While open-ended, conversational use of tools like ChatGPT are clearly the future (ChatGPT itself was instrumental in writing this demo app), I am interested in finding ways to accommodate the legitimate concerns of organizations that may struggle to govern and adopt these tools.</p>
 </div>
 <div class="relative mt-8 flex items-center gap-x-4">
