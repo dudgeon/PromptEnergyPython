@@ -25,7 +25,7 @@ def generate_text(prompt, context=None):
     # Set max_tokens based on the input_tokens
     min_tokens = 150
     max_tokens = input_tokens * 10
-    max_response_tokens = min(max_tokens, 4096) if max_tokens > min_tokens else min_tokens
+    max_response_tokens = min(max_tokens, 4000) if max_tokens > min_tokens else min_tokens
 
     response = openai.ChatCompletion.create(
         model=model_engine,
