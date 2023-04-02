@@ -23,41 +23,63 @@
   
   
 <script>
-async function loadPrompts() {
-  const response = await fetch('/static/prompts.json');
-  const prompts = await response.json();
-  const select = document.getElementById('input_text');
+  async function loadPrompts() {
+    const response = await fetch('/static/prompts.json');
+    const prompts = await response.json();
+    const select = document.getElementById('input_text');
+    
+    prompts.forEach(prompt => {
+      const option = document.createElement('option');
+      option.value = prompt.prompt;
+      option.textContent = prompt.name;
+      select.appendChild(option);
+    });
   
-  prompts.forEach(prompt => {
-    const option = document.createElement('option');
-    option.value = prompt.prompt;
-    option.textContent = prompt.name;
-    select.appendChild(option);
-  });
-
-  select.addEventListener("change", () => {
-    const selectedPrompt = prompts.find(p => p.prompt === select.value);
-
-    if (selectedPrompt && selectedPrompt.requires_context) {
-      document.getElementById("context-container").style.display = "block";
-      document.getElementById("context").value = selectedPrompt.placeholder_context;
-    } else {
-      document.getElementById("context-container").style.display = "none";
-      document.getElementById("context").value = "";
+    select.addEventListener("change", () => {
+      const selectedPrompt = prompts.find(p => p.prompt === select.value);
+  
+      if (selectedPrompt && selectedPrompt.requires_context) {
+        document.getElementById("context-container").style.display = "block";
+        document.getElementById("context").value = selectedPrompt.placeholder_context;
+      } else {
+        document.getElementById("context-container").style.display = "none";
+        document.getElementById("context").value = "";
+      }
+    });
+  
+    // Set default context value on page load
+    const defaultPrompt = prompts[0];
+    if (defaultPrompt.requires_context) {
+      document.getElementById("context").value = defaultPrompt.placeholder_context;
     }
+  }
+
+
+  // new function added to support api response streaming
+  async function generateWithStreaming() {
+  const formData = new FormData(document.getElementById("generate-form"));
+  formData.append("context", document.getElementById("context").value);
+
+  const response = await fetch("/generate_streaming", {
+    method: "POST",
+    body: formData,
   });
 
-  // Set default context value on page load
-  const defaultPrompt = prompts[0];
-  if (defaultPrompt.requires_context) {
-    document.getElementById("context").value = defaultPrompt.placeholder_context;
+  const reader = response.body.getReader();
+  const textDecoder = new TextDecoder();
+
+  let output = "";
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    const chunk = textDecoder.decode(value);
+    output += chunk;
+    document.getElementById("output").textContent = output;
   }
 }
 
 
-
-  document.addEventListener("DOMContentLoaded", () => {
-    
+document.addEventListener("DOMContentLoaded", () => {
   document.querySelector('button[type="submit"]').addEventListener("click", async (event) => {
     event.preventDefault();
     const button = document.querySelector('button[type="submit"]');
@@ -69,18 +91,41 @@ async function loadPrompts() {
     spinner.classList.remove('hidden');
     const formData = new FormData(document.getElementById("generate-form"));
     formData.append("context", document.getElementById("context").value);
+
     const response = await fetch("/generate_async", { method: "POST", body: formData });
-    const data = await response.json();
-    document.getElementById("output").textContent = data.result;
-    document.getElementById("output-section").classList.remove("hidden");
-    spinner.classList.add('hidden');
-    button.disabled = false;
-    button.style.opacity = 1;
-    loadingText.textContent = 'Generate';
+
+    if (response.body) {
+      const reader = response.body.getReader();
+      const textDecoder = new TextDecoder();
+      document.getElementById("output").textContent = "";
+      let result = "";
+
+      reader.read().then(async function processText({ done, value }) {
+        if (done) {
+          document.getElementById("output-section").classList.remove("hidden");
+          spinner.classList.add('hidden');
+          button.disabled = false;
+          button.style.opacity = 1;
+          loadingText.textContent = 'Generate';
+          return;
+        }
+
+        result += textDecoder.decode(value);
+        const lines = result.split('\n');
+        const lastLine = lines.pop();
+        result = lastLine;
+
+        lines.forEach(line => {
+          const node = document.createElement("span");
+          node.textContent = line;
+          document.getElementById("output").appendChild(node);
+          document.getElementById("output").appendChild(document.createElement("br"));
+        });
+
+        return reader.read().then(processText);
       });
-
-
-
+    }
+  });
     
     document.getElementById("copy-button").addEventListener("click", () => {
       const output = document.getElementById("output");

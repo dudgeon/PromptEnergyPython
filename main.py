@@ -1,16 +1,13 @@
 import openai
 import os
-from flask import Flask, render_template, request, jsonify
+from quart import Quart, render_template, request, jsonify, Response
+import asyncio
 
-app = Flask(__name__)
+app = Quart(__name__)
 
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
-import openai
-
-import openai
-
-def generate_text(prompt, context=None):
+async def generate_text_async(prompt, context=None):
     model_engine = "gpt-3.5-turbo"
 
     # Prepare the messages for the Chat API
@@ -19,36 +16,29 @@ def generate_text(prompt, context=None):
         messages.append({"role": "user", "content": context})
     messages.append({"role": "user", "content": prompt})
 
-    # Calculate tokens in the input messages
-    input_tokens = sum([len(message['content'].split()) for message in messages])
-    
-    # Set max_tokens based on the input_tokens
-    min_tokens = 150
-    max_tokens = input_tokens * 10
-    max_response_tokens = min(max_tokens, 4000) if max_tokens > min_tokens else min_tokens
-
-    response = openai.ChatCompletion.create(
+    async for chunk in await openai.ChatCompletion.acreate(
         model=model_engine,
         messages=messages,
-        max_tokens=max_response_tokens,
+        max_tokens=750,
         n=1,
         temperature=0.7,
         top_p=1,
         stop=None,
-    )
-    message = response.choices[0].message['content'].strip()
-    return message
-
+        stream=True,
+    ):
+        content = chunk["choices"][0].get("delta", {}).get("content")
+        if content is not None:
+            yield content
 
 @app.route("/")
-def home():
-    return render_template("index.html")
+async def home():
+    return await render_template("index.html")
 
 @app.route("/generate_async", methods=["POST"])
-def generate_async():
-    input_text = request.form["input_text"]
-    context = request.form["context"]
-    generated_text = generate_text(input_text, context)
-    return jsonify({"result": generated_text})
+async def generate_async():
+    input_text = (await request.form)["input_text"]
+    context = (await request.form)["context"]
+
+    return Response(generate_text_async(input_text, context), mimetype='text/plain')
 
 app.run(host="0.0.0.0", port=8080)
