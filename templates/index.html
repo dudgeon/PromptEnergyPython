@@ -39,10 +39,10 @@
       const selectedPrompt = prompts.find(p => p.prompt === select.value);
   
       if (selectedPrompt && selectedPrompt.requires_context) {
-        document.getElementById("context-container").style.display = "block";
+        // document.getElementById("context-container").style.display = "block";
         document.getElementById("context").value = selectedPrompt.placeholder_context;
       } else {
-        document.getElementById("context-container").style.display = "none";
+        // document.getElementById("context-container").style.display = "none";
         document.getElementById("context").value = "";
       }
     });
@@ -188,35 +188,98 @@ document.addEventListener("DOMContentLoaded", () => {
         </nav>
       </div>
 
+<!-- PROMPT BOOK SECTION -->
+
       <div class="mt-4 relative">
         <div x-show.transition="tab === 'prompt-book'" class="h-full">
 
-          
-          <form id="generate-form">
-            <label for="input_text" class="block mb-2">Select a prompt:</label>
-            <select name="input_text" id="input_text" class="border p-2 mb-4 w-full md:w-auto"></select>
-            <br>
+      <section class="text-gray-600 body-font">
+        <div class="container px-5 py-24 mx-auto flex flex-wrap">
+          <div class="flex flex-wrap w-full">
+            <div class="lg:w-2/5 md:w-1/2 md:pr-10 md:py-6">
 
-            <div id="context-container">
-            <label for="context" class="block mb-2">Please edit or add your context:</label>
-            <textarea name="context" id="context" class="border p-2 mb-4 w-full h-32" placeholder="Enter additional context here (if required)"></textarea>  
-            </div>
+
+              <form id="generate-form">
+
+
+                
+              <div class="flex relative pb-12"> <!-- SELECT PROMPT ELEMENT -->
+                <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                  <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+                </div>
+                
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
+                  <!-- Replace the content of the <svg> tag with the appropriate icon for the select prompt -->
+                  <svg>...</svg>
+                </div>
+
+                <div class="flex-grow pl-4">
+                  <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">SELECT PROMPT</h2>
+                  <select name="input_text" id="input_text" class="border p-2 mb-4 w-full md:w-auto"></select> 
+                </div>
+              </div>
+              
+              
+              <div class="flex relative pb-12" id="context-container"> <!-- CONTEXT ELEMENT -->
+                <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                  <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+                </div>
+                
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
+                  <!-- Replace the content of the <svg> tag with the appropriate icon for the context -->
+                  <svg>...</svg>
+                </div>
+                
+                <div class="flex-grow pl-4">
+                  <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">EDIT CONTEXT</h2>
+                  <textarea name="context" id="context" class="border p-2 mb-4 w-full h-32" placeholder="Enter additional context here (if required)"></textarea>         
+                </div>
+              </div> <!-- CONTEXT ELEMENT -->
+
+
+              <div class="flex relative pb-12"> <!-- GENERATE BUTTON ELEMENT -->
+                <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                  <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+                </div>
+                
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
+                  <!-- Replace the content of the <svg> tag with the appropriate icon for the context -->
+                  <svg>...</svg>
+                </div>
+                <div class="flex-grow pl-4">
+                  <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">GENERATE</h2>
+                  <p class="leading-relaxed">Depending on how much context you provided, your prompt may take a while to load. Please be patient.</p>
+<br>
+                  <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto relative">
+                    <span class="spinner hidden absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                      <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647zM12 20.5A8.5 8.5 0 012.5 12H4a7.5 7.5 0 0014.659 2.659l-1.302-1.303A5.5 5.5 0 1112 20.5z"></path>
+                      </svg>
+                    </span>
+                    <span class="loading-text">Generate</span>
+                  </button>
+                  
+                </div>
+              </div>
             
-           <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto relative">
-  <span class="spinner hidden absolute top-0 left-0 w-full h-full flex items-center justify-center">
-    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647zM12 20.5A8.5 8.5 0 012.5 12H4a7.5 7.5 0 0014.659 2.659l-1.302-1.303A5.5 5.5 0 1112 20.5z"></path>
-    </svg>
-  </span>
-  <span class="loading-text">Generate</span>
-</button>
+              </form>
+              
+              
+              <div class="flex relative hidden" id="output-section">
+<!--                 <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                  <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+                </div> -->
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-500 inline-flex items-center justify-center text-white relative z-10">
+                  <!-- Replace the content of the <svg> tag with the appropriate icon for the output -->
+                  <svg>...</svg>
+                </div>
+                <div class="flex-grow pl-4">
+                  <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">OUTPUT</h2>
+                  <p class="leading-relaxed">Description of the output section</p>
 
-          </form>
-
-
-<div class="relative mt-6 hidden" id="output-section">
-  <div class="bg-gray-800 rounded-t-md mb-4">
+<!-- Original output section -->
+ <div class="bg-gray-800 rounded-t-md mb-4">
     <div class="flex items-center relative text-gray-200 bg-gray-700 px-4 py-2 text-xs font-sans justify-between rounded-t-md">
       <span>Output</span>
       <button id="copy-button" class="flex items-center ml-auto gap-2 text-white hover:text-blue-600">
@@ -228,7 +291,28 @@ document.addEventListener("DOMContentLoaded", () => {
       <code id="output" class="whitespace-pre-wrap"></code>
     </div>
   </div>
-</div>
+
+                  
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </section> 
+
+
+      
+      
+      
+
+          
+          
+
+
+
+ 
+
 
 
 
