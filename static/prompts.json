@@ -18,10 +18,10 @@
     "response_is_code": true
   },
   {
-    "name": "Story Generation",
+    "name": "Feature -> Stories + Gherkin",
     "description": "Help a product manager turn an unstructured description of a feature into a standardized, engineer-friendly story in Gherkin format, including test cases.",
     "author": "Geoff",
-    "prompt": "Please write the comprehensive set of correctly formatted user stories required to enable the provided feature context. Sub-bullet each user story with the comprehensive gherkin acceptance criteria describing all behaviors for the user story. Here is the feature context:",
+    "prompt": "Please write the comprehensive set of correctly formatted user stories required to enable the provided feature context in markdown. Sub-bullet each user story with the comprehensive gherkin acceptance criteria describing all behaviors for the user story. Here is the feature context:",
     "requires_context": true,
     "placeholder_context": "Geoff the product manager has an idea for a new LLM prompt; he wants to make it available for his colleagues to execute in a secure, compliant, and user-friendly interface that enables access controls and conforms to his company's data security standards, without the need to access an open-ended tool like ChatGPT. He wants to help others improve their experience and efficiency of performing routine tasks.",
     "response_is_code": true
