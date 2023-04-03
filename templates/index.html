@@ -158,6 +158,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   <div x-data="{ tab: 'prompt-book' }" class="container mx-auto px-4 py-8">
     <div class="bg-white rounded-lg shadow-lg p-6">
+
+
       <div class="flex items-center justify-center mb-4">
         <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
 
@@ -194,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div x-show.transition="tab === 'prompt-book'" class="h-full">
 
       <section class="text-gray-600 body-font">
-        <div class="container px-5 mx-auto flex flex-wrap">
+        <div class="container px-2 mx-auto flex flex-wrap">
           <div class="flex flex-wrap w-full justify-center">
             <div class="md:pr-10 md:py-6">
 
@@ -203,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 
-              <div class="flex relative pb-12"> <!-- SELECT PROMPT ELEMENT -->
+              <div class="flex relative pb-6"> <!-- SELECT PROMPT ELEMENT -->
                 <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
                   <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
                 </div>
@@ -215,12 +217,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 <div class="flex-grow pl-4">
                   <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">SELECT PROMPT</h2>
+                  <p class="leading-relaxed text-sm leading-6 text-gray-400">In an enterprise context, available prompts could be subject to access controls.</p>
+                  <br>
                   <select name="input_text" id="input_text" class="border p-2 mb-4 w-full md:w-auto"></select> 
                 </div>
               </div>
               
               
-              <div class="flex relative pb-12" id="context-container"> <!-- CONTEXT ELEMENT -->
+              <div class="flex relative pb-6" id="context-container"> <!-- CONTEXT ELEMENT -->
                 <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
                   <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
                 </div>
@@ -232,12 +236,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 <div class="flex-grow pl-4">
                   <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">EDIT CONTEXT</h2>
-                  <textarea name="context" id="context" class="border p-2 mb-4 w-full h-32" placeholder="Enter additional context here (if required)"></textarea>         
+                  <p class="leading-relaxed text-sm leading-6 text-gray-400">In an enterprise context, context could be subject to content filtering.</p>
+                  <br>
+                  <textarea name="context" id="context" class="font-mono text-sm border p-2 mb-4 w-full h-32" placeholder="Enter additional context here (if required)"></textarea>         
                 </div>
               </div> <!-- CONTEXT ELEMENT -->
 
 
-              <div class="flex relative pb-12"> <!-- GENERATE BUTTON ELEMENT -->
+              <div class="flex relative pb-6"> <!-- GENERATE BUTTON ELEMENT -->
                 <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
                   <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
                 </div>
@@ -248,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <div class="flex-grow pl-4">
                   <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">GENERATE</h2>
-                  <p class="leading-relaxed">Depending on how much context you provided, your prompt may take a while to load. Please be patient.</p>
+                  <p class="leading-relaxed text-sm leading-6 text-gray-400">Depending on how much context you provide, your prompt may take a while to load. Please be patient.</p>
 <br>
                   <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto relative">
                     <span class="spinner hidden absolute top-0 left-0 w-full h-full flex items-center justify-center">
@@ -278,22 +284,26 @@ document.addEventListener("DOMContentLoaded", () => {
                   <h2 class="font-medium title-font text-sm text-gray-900 mb-1 tracking-wider">OUTPUT</h2>
                   <p class="leading-relaxed">Description of the output section</p>
 
-<!-- Original output section -->
- <div class="bg-gray-800 rounded-t-md mb-4">
-    <div class="flex items-center relative text-gray-200 bg-gray-700 px-4 py-2 text-xs font-sans justify-between rounded-t-md">
-      <span>Output</span>
-      <button id="copy-button" class="flex items-center ml-auto gap-2 text-white hover:text-blue-600">
-        <i class="fas fa-copy"></i>
-        <span>Copy</span>
-      </button>
-    </div>
-    <div class="p-4 overflow-y-auto text-white text-sm">
-      <code id="output" class="whitespace-pre-wrap"></code>
-    </div>
-  </div>
+                  <!-- Original output section -->
+                   <div class="bg-gray-800 rounded-t-md mb-4">
+                      <div class="flex items-center relative text-gray-200 bg-gray-700 px-4 py-2 text-xs font-sans justify-between rounded-t-md">
+                        <span>Output</span>
+                        <button id="copy-button" class="flex items-center ml-auto gap-2 text-white hover:text-blue-600">
+                          <i class="fas fa-copy"></i>
+                          <span>Copy</span>
+                        </button>
+                      </div>
+                      <div class="p-4 overflow-y-auto text-white text-sm">
+                        <code id="output" class="whitespace-pre-wrap"></code>
+                      </div>
+                    </div>
 
                   
                 </div>
+
+
+
+                
               </div>
               
             </div>
