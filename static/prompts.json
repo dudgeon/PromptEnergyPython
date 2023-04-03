@@ -9,7 +9,7 @@
     "response_is_code": false
   },
   {
-    "name": "Feature -> Stories + Gherkin",
+    "name": "Feature -> Stories",
     "description": "Help a product manager turn an unstructured description of a feature into a standardized, engineer-friendly story in Gherkin format, including test cases.",
     "author": "Geoff",
     "prompt": "Please write the comprehensive set of correctly formatted user stories required to enable the provided feature context in markdown. Sub-bullet each user story with the comprehensive acceptance criteria describing all behaviors for the user story; use gherkin formatting for each acceptance criteria. Here is the feature context:",
