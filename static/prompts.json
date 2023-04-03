@@ -34,14 +34,5 @@
     "requires_context": false,
     "placeholder_context": "No context is required.",
     "response_is_code": false
-  },
-  {
-    "name": "Knock-Knock Joke",
-    "description": "Generate a knock-knock joke based on user-provided context.",
-    "author": "OpenAI",
-    "prompt": "Please generate a clever knock-knock joke based using the provided context as a topic. Here is the context:",
-    "requires_context": true,
-    "placeholder_context": "e.g. Axolotls",
-    "response_is_code": false
   }
 ]
